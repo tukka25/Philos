@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/08 06:02:07 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:36:13 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	pthread_t		*t;
 	t_thread		*threads;
 	int				*forks;
+	int				arr[9];
 	pthread_mutex_t	mutex;
 }	t_philo;
 
@@ -57,4 +58,11 @@ void	*routine2();
 void	threads_create(t_philo *p);
 void	thread_init(t_philo *p, int i);
 void	init(t_philo *p);
+void	init_forks(t_philo *p);
+void	creating_threads(t_philo *p);
+void	eating(t_philo *p);
+void	sleeping(t_philo *p);
+void	died(t_philo *p);
+void	thinking(t_philo *p);
+void	took_fork(t_philo *p);
 #endif
