@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:29:03 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/08 06:01:59 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/09 01:25:54 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 static void	priniting(t_philo *p)
 {
-	printf("philo num = %d\n", p->philos_num);
-	printf("philo num = %d\n", p->die_t);
-	printf("philo num = %d\n", p->eat_t);
-	printf("philo num = %d\n", p->sleep_t);
-	printf("philo num = %d\n", p->meals);
-	printf("all right\n");
+	(void)p;
+	// printf("philo num = %d\n", p->philos_num);
+	// printf("die = %d\n", p->die_t);
+	// printf("eat= %d\n", p->eat_t);
+	// printf("sleep = %d\n", p->sleep_t);
+	// printf("meals = %d\n", p->meals);
+	// printf("all right\n");
 }
 
 int	pars(t_philo *p, char *argv[])
