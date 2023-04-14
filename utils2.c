@@ -6,82 +6,93 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/13 04:03:10 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:19:32 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	taking_forks(t_philo *p, int index)
+void	taking_forks(t_forks *f, int index)
 {
 	int	i;
-	int	s = 0;
+	// int	s = 0;
 
 	i = 0;
-	while (p->forks[i])
-	{
-		if (p->forks[index])
+	// while (f->forks[i])
+	// {
+		if (f->forks[index])
 		{
-			if (p->forks[index + 1] != -1)
-			{
-				p->forks[index - 1] = -1;
-				p->forks[index] = -1;
-				break ;
-			}
+			// if (f->forks[index + 1] != -1)
+			// {
+				f->forks[index - 1] = -1;
+				f->forks[index] = -1;
+				// break ;
+			// }
 		}
 		else
 		{
 			// printf("hihi\n");
-			p->forks[0] = -1;
-			p->forks[index - 1] = -1;
-			break ;
+			f->forks[0] = -1;
+			f->forks[index - 1] = -1;
+			// break ;
 		}
 		i++;
-	}
-	while (p->forks[s])
-	{
-		printf("  {%d}  ", p->forks[s]);
-		s++;
-	}
-	printf("\n");
+	// }
+	// printf("\n");
+	// while (f->forks[s])
+	// {
+	// 	printf("  {%d}  ", f->forks[s]);
+	// 	s++;
+	// }
+	// printf("\n");
 }
 
-int	check_for_forks(t_philo *p, int index)
+int	check_for_forks(t_forks *f, int index)
 {
 	// printf("index = %d\n", index);
-	// printf("fork = %d", p->forks[index]);
-	if (p->forks[index] != '\0')
+	// printf("fork = %d", f->forks[index]);
+	if (f->forks[index] != '\0')
 	{
-		if (p->forks[index] != -1 && p->forks[index + 1] != -1)
+		if (f->forks[index - 1] != -1 && f->forks[index] != -1)
 			return (1);
 		return (0);
 	}
 	else
 	{
-		if (p->forks[0] != -1)
+		if (f->forks[0] != -1)
 			return (1);
 	}
 	return (0);
 }
 
-void	return_forks(t_philo *p, int index)
+void	return_forks(t_forks *f, int index)
 {
-	printf("return index = %d\n", index);
-	if (p->forks[index] != '\0')
+	// printf("return index = %d\n", index);
+	if (f->forks[index] != '\0')
 	{
-		p->forks[index - 1] = index;
-		p->forks[index] = index + 1;
+		f->forks[index - 1] = index;
+		f->forks[index] = index + 1;
 	}
 	else
 	{
-		p->forks[0] = 1;
-		p->forks[index - 1] = index;
+		f->forks[0] = 1;
+		f->forks[index - 1] = index;
 	}
-	int s = 0;
-	while (p->forks[s])
+}
+
+void	ft_usleep(t_thread *p, int l)
+{
+	long long	time;
+	long long	time2;
+
+	gettimeofday(&p->tv, NULL);
+	time2 = p->tv.tv_sec * 1000;
+	time2 += p->tv.tv_usec / 1000;
+	time = time2;
+	while (time - time2 < l)
 	{
-		printf("  [%d]  ", p->forks[s]);
-		s++;
+		gettimeofday(&p->tv, NULL);
+		time = p->tv.tv_sec * 1000;
+		time += p->tv.tv_usec / 1000;
 	}
-	printf("\n");
 }

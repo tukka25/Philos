@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/13 22:15:45 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:55:40 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,15 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+typedef struct s_forks
+{
+	int				*forks;
+	pthread_mutex_t	mutex;
+}	t_forks;
+
 typedef struct s_thread
 {
+	long long		k;
 	int				index;
 	int				p_n;
 	int				d_t;
@@ -30,8 +37,9 @@ typedef struct s_thread
 	int				sl_t;
 	int				meals_n;
 	long long		start_t;
+	t_forks			*f;
+	long long		last_eating;
 	struct timeval	tv;
-	pthread_mutex_t	mutex;
 }	t_thread;
 
 typedef struct s_philo
@@ -63,17 +71,18 @@ int		ft_isascii(int c);
 void	ignore_zero(char *str, t_philo *p);
 void	*routine(void *);
 void	*routine2();
-void	threads_create(t_philo *p);
-void	thread_init(t_philo *p);
+void	threads_create(t_philo *p, t_forks *f);
+void	thread_init(t_philo *p, t_forks *f);
 void	init(t_philo *p);
-void	init_forks(t_philo *p, int philos_num);
-void	creating_threads(t_philo *p);
+void	init_forks(t_forks *f, int philos_num);
+void	creating_threads(t_philo *p, t_forks *f);
 void	eating(t_thread *p, int index, long long time);
 void	sleeping(t_thread *p, int index, long long time);
 void	died(t_thread *p, int index, long long time);
 void	thinking(t_thread *p, int index, long long time);
 void	took_fork(t_thread *p, int index, long long time);
-void	taking_forks(t_philo *p, int index);
-int		check_for_forks(t_philo *p, int index);
-void	return_forks(t_philo *p, int index);
+void	taking_forks(t_forks *f, int index);
+int		check_for_forks(t_forks *f, int index);
+void	return_forks(t_forks *f, int index);
+void	ft_usleep(t_thread *p, int l);
 #endif
