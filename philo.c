@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/14 23:50:38 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/16 00:55:59 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	thread_init(t_philo *p, t_forks *f)
 		p->threads[i].f = f;
 		p->threads[i].f->mutex = f->mutex;
 		p->threads[i].last_eating = p->time;
+		p->threads[i].f->status = f->status;
 		// printf("index = %d\n", p->threads[i].index);
 		i++;
 	}
@@ -78,6 +79,7 @@ void	init_forks(t_forks *f, int philos_num)
 	i = 0;
 	j = 1;
 	f->forks = malloc((philos_num + 1) * sizeof(int));
+	f->status = malloc((philos_num + 1) * sizeof(int));
 	if (!f->forks)
 		return ;
 	while (i < philos_num)
@@ -87,4 +89,11 @@ void	init_forks(t_forks *f, int philos_num)
 		j++;
 	}
 	f->forks[i] = '\0';
+	i = 0;
+	while (i < philos_num)
+	{
+		f->status[i] = j;
+		i++;
+	}
+	f->status[i] = '\0';
 }

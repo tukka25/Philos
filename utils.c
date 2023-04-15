@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:33:49 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/07 22:17:37 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/15 02:23:31 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	ft_isdigit_ph(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (!(str[i] >= '0' && str[i] <= '9') || (str[i] != '+' && (!(str[i] >= '0' && str[i] <= '9'))))
+		if (!(str[i] >= '0' && str[i] <= '9')
+			|| (str[i] != '+' && (!(str[i] >= '0' && str[i] <= '9'))))
 		{
 			printf("str = %c\n", str[i]);
 			return (1);
@@ -69,4 +70,18 @@ void	ignore_zero(char *str, t_philo *p)
 		++p->j;
 	while (str[p->j] == '0')
 		p->j++;
+}
+
+int	check_if_died(t_thread *p)
+{
+	int		i;
+
+	i = 0;
+	while (p->f->status[i])
+	{
+		if (p->f->status[i] == -1)
+			return (1);
+		i++;
+	}
+	return (0);
 }

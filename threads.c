@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/15 00:16:33 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/15 21:32:33 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void	creating_threads(t_philo *p, t_forks *f)
 	{
 		// printf("p = %d\n", p->in);
 		pthread_create(&p->t[p->in], NULL, &routine, &p->threads[p->in]);
+		// if (p->threads[p->in].k - p->threads[p->in].last_eating >= p->threads[p->in].d_t)
+		// {
+		// 	// died(p, p->index, p->k);
+		// 	exit(0);
+		// }
 		// usleep(100);
 		p->in++;
 	}
