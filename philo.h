@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/15 02:24:02 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/17 22:00:36 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 typedef struct s_forks
 {
 	int				*forks;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	*mutex;
+	pthread_mutex_t	mu;
 	int				*status;
 }	t_forks;
 
@@ -87,4 +88,5 @@ int		check_for_forks(t_forks *f, int index);
 void	return_forks(t_forks *f, int index);
 void	ft_usleep(t_thread *p, int l);
 int		check_if_died(t_thread *p);
+int		check_dying(t_philo *p);
 #endif

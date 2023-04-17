@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/16 00:55:59 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:29:42 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int ac, char *argv[])
 	t_philo			p;
 	t_forks			f;
 
-	pthread_mutex_init(&f.mutex, NULL);
+	// pthread_mutex_init(&f.mutex, NULL);
 	p.f = 0;
 	if (ac >= 5 && ac <= 6)
 	{
@@ -32,7 +32,7 @@ int	main(int ac, char *argv[])
 	}
 	else
 		write(2, "Invalid Arguments\n", 18);
-	pthread_mutex_destroy(&f.mutex);
+	// pthread_mutex_destroy(&f.mutex);
 }
 
 void	threads_create(t_philo *p, t_forks *f)
@@ -43,6 +43,7 @@ void	threads_create(t_philo *p, t_forks *f)
 	creating_threads(p, f);
 	while (i < p->philos_num)
 	{
+		check_dying(p);
 		pthread_join(p->t[i], NULL);
 		i++;
 	}
@@ -66,9 +67,11 @@ void	thread_init(t_philo *p, t_forks *f)
 		p->threads[i].f->mutex = f->mutex;
 		p->threads[i].last_eating = p->time;
 		p->threads[i].f->status = f->status;
-		// printf("index = %d\n", p->threads[i].index);
+		pthread_mutex_init(p->threads[i].f->mutex, NULL);
+		// printf("index = %d ", p->threads[i].index);
 		i++;
 	}
+	printf("\n");
 }
 
 void	init_forks(t_forks *f, int philos_num)
