@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/17 22:00:36 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/24 10:51:08 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 typedef struct s_forks
 {
+	
 	int				*forks;
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	mu;

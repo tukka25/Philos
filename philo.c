@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/17 21:29:42 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/24 10:39:42 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	thread_init(t_philo *p, t_forks *f)
 	int	i;
 
 	i = 0;
+	// f->k = 0;
 	while (i < p->philos_num)
 	{
 		p->threads[i].index = i + 1;
@@ -67,6 +68,7 @@ void	thread_init(t_philo *p, t_forks *f)
 		p->threads[i].f->mutex = f->mutex;
 		p->threads[i].last_eating = p->time;
 		p->threads[i].f->status = f->status;
+		// p->threads[i].f->k = f->k;
 		pthread_mutex_init(p->threads[i].f->mutex, NULL);
 		// printf("index = %d ", p->threads[i].index);
 		i++;

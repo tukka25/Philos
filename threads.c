@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/17 21:32:59 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/24 10:45:28 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	check_dying(t_philo *p)
 	i = 0;
 	while (1)
 	{
-		// printf("k = %d, l = %d\n", p->threads->k, )
+		// printf("k = %lld , l = %lld\n", p->threads->k, p->threads->k - p->threads[i].last_eating);
 		if (p->threads->k - p->threads[i].last_eating >= p->die_t)
 		{
-			died(&p->threads[i], p->threads[i].index, p->threads->k);
+			died(&p->threads[i], p->threads->index, p->threads->k);
 			exit(0);
 		}
 		if (i == p->philos_num)

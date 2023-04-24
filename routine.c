@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/17 21:54:19 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/24 10:36:10 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,8 @@ void	*routine(void *t)
 		gettimeofday(&p->tv, NULL);
 		p->k = p->tv.tv_sec * 1000;
 		p->k += p->tv.tv_usec / 1000;
-		// pthread_mutex_lock(&p->mutex);
-		// printf("t = %lld\n", p->k);
-		// printf("p = %lld\n", p->last_eating);
-		// printf("hi\n");
-		// printf("")
-		// if (check_for_forks(p->f, p->index) == 0)
-		// 	pthread_mutex_lock(&p->mutex);
-		// printf(" p = %lld\n", p->last_eating);
-		// if (check_if_died(p) == 1)
-		// 	return (0);
-		// if (p->k - p->last_eating >= p->d_t)
-		// {
-		// 	died(p, p->index, p->k);
-		// 	exit(0);
-		// }
-		// if (check_if_died(p) == 1)
-		// 	return (0);
-		// pthread_mutex_lock(&p->f->mutex);
 		if (check_for_forks(p->f, p->index) == 1)
 		{
-			// if (p->k - p->last_eating >= p->d_t)
-			// {
-			// 	// printf("died = %lld\n", p->k - p->start_t);
-			// 	died(p, p->index, p->k);
-			// 	exit(0);
-			// }
 			pthread_mutex_lock(&p->f->mu);
 			taking_forks(p->f, p->index);
 			// pthread_mutex_unlock(&p->f->mu);
@@ -57,10 +33,6 @@ void	*routine(void *t)
 				return (0);
 			// pthread_mutex_lock(&p->f->mu);
 			took_fork(p, p->index, p->k);
-			// pthread_mutex_unlock(&p->f->mu);
-			// if (check_for_forks(p->f, p->index) == 1)
-			// pthread_mutex_unlock(&p->f->mutex);
-			// pthread_mutex_lock(&p->f->mu);
 			eating(p, p->index, p->k);
 			// pthread_mutex_unlock(&p->f->mu);
 			// pthread_mutex_lock(&p->f->mutex[0]);
