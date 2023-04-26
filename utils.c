@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:33:49 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/15 02:23:31 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/25 20:54:46 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ void	ignore_zero(char *str, t_philo *p)
 
 int	check_if_died(t_thread *p)
 {
-	int		i;
+	long long	t;
 
-	i = 0;
-	while (p->f->status[i])
+	t = ft_gettime();
+	if (t - p->last_eating >= p->d_t)
 	{
-		if (p->f->status[i] == -1)
-			return (1);
-		i++;
+		died(&p[p->index - 1], p->index, 0);
+		return (1);
 	}
 	return (0);
 }
+

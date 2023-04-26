@@ -2,6 +2,7 @@
 	"files.associations": {
 		"chrono": "c",
 		"__locale": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"__mutex_base": "c"
 	}
 }

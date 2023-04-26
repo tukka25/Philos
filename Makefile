@@ -5,7 +5,8 @@ SRCS =	philo.c         \
 		utils.c         \
 		routine.c       \
 		threads.c       \
-		utils2.c
+		utils2.c        \
+		routine_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
