@@ -12,12 +12,12 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS =  -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS =  -g3 -Wall -Wextra -Werror -pthread #-fsanitize=thread
 
 all:$(NAME)
 
 $(NAME):$(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) -o -pthread -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 clean:
 	rm -f $(OBJS)
 

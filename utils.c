@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:33:49 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/25 20:54:46 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:12:54 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	check_if_died(t_thread *p)
 	t = ft_gettime();
 	if (t - p->last_eating >= p->d_t)
 	{
-		died(&p[p->index - 1], p->index, 0);
+		// died(&p[p->index - 1], p->index, 0);
 		return (1);
 	}
 	return (0);

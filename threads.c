@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/26 16:40:11 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:43:11 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	check_dying(t_philo *p)
 		t = ft_gettime();
 		if (t - p->threads[i].last_eating >= p->die_t)
 		{
+			p->threads[i].f->status[p->threads[i].index - 1] = -1;
 			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
 			return (1);
 		}

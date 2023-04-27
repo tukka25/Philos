@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/26 17:44:48 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:20:55 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	check_for_forks(t_forks *f, int index)
 	// printf("index = %d\n", index);
 	// sleep(2); /
 	// printf("fork = %d", f->forks[index]);
+	// pthread_mutex_lock(&f->mu);
 	if (f->forks[index] != '\0')
 	{
 		if (f->forks[index] != -1 && f->forks[index - 1] != -1)
@@ -51,6 +52,7 @@ int	check_for_forks(t_forks *f, int index)
 			// printf("in = %d\n", f->forks[index]);
 			// printf("in = %d\n", f->forks[index - 1]);
 			// printf("index1 = %d\n", index);
+			// pthread_mutex_unlock(&f->mu);
 			return (1);
 		}
 		return (0);
@@ -60,7 +62,7 @@ int	check_for_forks(t_forks *f, int index)
 		if (f->forks[0] != -1 && (f->forks[index - 1] != -1
 			&& f->forks[index - 1] != 0))
 		{
-			// printf("index2 = %d\n", index);
+			// pthread_mutex_unlock(&f->mu);
 			return (1);
 		}
 		return (0);
@@ -139,7 +141,7 @@ void	ft_usleep(t_thread *p, int l)
 		gettimeofday(&p->tv, NULL);
 		time = p->tv.tv_sec * 1000;
 		time += p->tv.tv_usec / 1000;
-		usleep(100);
+		usleep(10);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/26 17:35:09 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:04:23 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ int	main(int ac, char *argv[])
 
 int	threads_create(t_philo *p, t_forks *f)
 {
-	int		i;
-
-	i = 0;
 	if (creating_threads(p, f) == 1)
 		return (1);
 	if (check_dying(p) == 1)
@@ -48,7 +45,7 @@ int	threads_create(t_philo *p, t_forks *f)
 		join_threads(p);
 		return (1);
 	}
-	// join_threads(p);
+	join_threads(p);
 	return (0);
 }
 
