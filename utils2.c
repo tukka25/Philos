@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/29 20:26:15 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/29 21:18:19 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,31 +61,32 @@ int	check_for_forks(t_forks *f, int index)
 	// printf("index = %d\n", index);
 	// sleep(2); /
 	// printf("fork = %d", f->forks[index]);
+	int		i;
+
+	i = 0;
 	// pthread_mutex_lock(&f->mu);
 	if (f->forks[index] != '\0')
 	{
 		// pthread_mutex_lock(&f->mu);
 		if (f->forks[index] != -1 && f->forks[index - 1] != -1)
 		{
-			// printf("in = %d\n", f->forks[index]);
-			// printf("in = %d\n", f->forks[index - 1]);
-			// printf("index1 = %d\n", index);
-			return (1);
+			i = 1;
 		}
 		// pthread_mutex_unlock(&f->mu);
-		return (0);
 	}
 	else
 	{
+		// pthread_mutex_lock(&f->mu);
+		// pthread_mutex_unlock(&f->mu);
 		if (f->forks[0] != -1 && (f->forks[index - 1] != -1
 			&& f->forks[index - 1] != 0))
 		{
-			// pthread_mutex_unlock(&f->mu);
-			return (1);
+			i = 1;
 		}
-		return (0);
+		// pthread_mutex_unlock(&f->mu);
 	}
-	return (0);
+	// pthread_mutex_unlock(&f->mu);
+	return (i);
 }
 
 void	return_forks(t_forks *f, int index)
@@ -144,7 +145,10 @@ void	ft_usleep(t_thread *p, int l)
 	while (time - time2 < l)
 	{
 		if (check_if_died(p) == 1)
-			exit(0);
+		{
+			unlock_when_die(p->f);
+			return ;
+		}
 		gettimeofday(&p->tv, NULL);
 		time = p->tv.tv_sec * 1000;
 		time += p->tv.tv_usec / 1000;

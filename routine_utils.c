@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:35:07 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/29 19:00:23 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/29 21:21:54 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,7 @@ void	unlock_when_die(t_forks *f)
 	int		i;
 
 	i = 0;
-	// while (f->forks[i])
-	// {
-	// 	printf("  %d", f->forks[i]);
-	// 	i++;
-	// }
-	// printf("\n");
-	i = 0;
+	pthread_mutex_lock(&f->mu);
 	while (f->forks[i])
 	{
 		if (f->forks[i] == -1)
@@ -62,17 +56,19 @@ void	unlock_when_die(t_forks *f)
 	// printf("h  %d\n", f->forks[i]);
 	if (f->forks[i + 1] != '\0')
 	{
-		pthread_mutex_unlock(&f->mutex[0]);
-		pthread_mutex_unlock(&f->mutex[1]);
-		pthread_mutex_unlock(&f->mutex[2]);
+		
+		// pthread_mutex_unlock(&f->mutex[i]);
+		// pthread_mutex_unlock(&f->mutex[i + 1]);
+		// pthread_mutex_unlock(&f->mutex[2]);
 	}
 	else
 	{
 		// printf("here\n");
-		pthread_mutex_unlock(&f->mutex[0]);
-		pthread_mutex_unlock(&f->mutex[1]);
-		pthread_mutex_unlock(&f->mutex[2]);
+		// pthread_mutex_unlock(&f->mutex[0]);
+		// pthread_mutex_unlock(&f->mutex[i]);
+		// pthread_mutex_unlock(&f->mutex[2]);
 	}
+	pthread_mutex_unlock(&f->mu);
 }
 
 int	about_to_die(t_thread *p, int index)
