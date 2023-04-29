@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/26 19:04:23 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:33:01 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	threads_create(t_philo *p, t_forks *f)
 		return (1);
 	if (check_dying(p) == 1)
 	{
+		unlock_when_die(f);
 		join_threads(p);
 		return (1);
 	}

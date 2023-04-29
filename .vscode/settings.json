@@ -3,6 +3,7 @@
 		"chrono": "c",
 		"__locale": "c",
 		"algorithm": "c",
-		"__mutex_base": "c"
+		"__mutex_base": "c",
+		"philo.h": "c"
 	}
 }

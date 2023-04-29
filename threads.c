@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:11 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:47:36 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,27 @@ int	check_dying(t_philo *p)
 		t = ft_gettime();
 		if (t - p->threads[i].last_eating >= p->die_t)
 		{
+			// if (forky(p, i) == 1)
+			// {
+			// 	// usleep(1);
+			// 	continue;
+			// }
 			p->threads[i].f->status[p->threads[i].index - 1] = -1;
 			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
+			unlock_when_die(p->threads->f);
 			return (1);
 		}
 		i++;
 		if (i == p->philos_num)
 			i = 0;
 	}
+}
+
+int	forky(t_philo *p, int i)
+{
+	if (p->threads->f->forks[p->threads[i].index - 1] == -1)
+	{
+		return (1);
+	}
+	return (0);
 }

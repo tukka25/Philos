@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/27 13:20:55 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:26:15 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,39 @@
 
 void	taking_forks(t_forks *f, int index)
 {
+	// printf("\n");
 	if (f->forks[index] != '\0')
 	{
-		f->forks[index - 1] = -1;
-		f->forks[index] = -1;
 		pthread_mutex_lock(&f->mutex[index - 1]);
 		pthread_mutex_lock(&f->mutex[index]);
+		// printf("\n");
+		// int s = 0;
+		// while (f->forks[s])
+		// {
+		// 	s++;
+		// }
+		// printf("index = %d\n", s);
+		// printf("\n");
+		f->forks[index - 1] = -1;
+		f->forks[index] = -1;
 	}
 	else
 	{
-		f->forks[0] = -1;
-		f->forks[index - 1] = -1;
 		pthread_mutex_lock(&f->mutex[0]);
 		pthread_mutex_lock(&f->mutex[index - 1]);
+		// printf("\n");
+		// printf("\n");
+		// int s = 0;
+		// while (f->forks[s])
+		// {
+		// 	s++;
+		// }
+		// printf("index = %d\n", s);
+		f->forks[0] = -1;
+		f->forks[index - 1] = -1;
 	}
 	// }
-	// printf("\n");
+	// printf("index = %d\n", index);
 	// int s = 0;
 	// while (f->forks[s])
 	// {
@@ -47,14 +64,15 @@ int	check_for_forks(t_forks *f, int index)
 	// pthread_mutex_lock(&f->mu);
 	if (f->forks[index] != '\0')
 	{
+		// pthread_mutex_lock(&f->mu);
 		if (f->forks[index] != -1 && f->forks[index - 1] != -1)
 		{
 			// printf("in = %d\n", f->forks[index]);
 			// printf("in = %d\n", f->forks[index - 1]);
 			// printf("index1 = %d\n", index);
-			// pthread_mutex_unlock(&f->mu);
 			return (1);
 		}
+		// pthread_mutex_unlock(&f->mu);
 		return (0);
 	}
 	else
@@ -74,25 +92,23 @@ void	return_forks(t_forks *f, int index)
 {
 	// write(1, "return\n", 7);
 	// sleep(2);
+	// printf("\n");
 	if (f->forks[index] != '\0')
 	{
 		// if (f->forks[index - 1] != -1 && f->forks[index] != -1)
 		// {
 			f->forks[index - 1] = index;
 			f->forks[index] = index + 1;
-			// pthread_mutex_unlock(&f->mu);
+			// printf("\n");
+			// int s = 0;
+			// while (f->forks[s])
+			// {
+			// 	s++;
+			// }
+			// printf("index = %d\n", s);
+			// printf("\n");
 			pthread_mutex_unlock(&f->mutex[index - 1]);
 			pthread_mutex_unlock(&f->mutex[index]);
-		// }
-		// printf("\n");
-		// int s = 0;
-		// while (f->forks[s])
-		// {
-		// 	printf("  [%d]  ", f->forks[s]);
-		// 	s++;
-		// }
-		// printf("\n");
-		// sleep(2);
 	}
 	else
 	{
@@ -100,29 +116,20 @@ void	return_forks(t_forks *f, int index)
 		// {
 			f->forks[0] = 1;
 			f->forks[index - 1] = index;
+			// printf("f = %d\n", f->forks[index - 1]);
 			// pthread_mutex_unlock(&f->mu);
+			// printf("\n");
+			// int s = 0;
+			// while (f->forks[s])
+			// {
+			// 	s++;
+			// }
+			// printf("index = %d\n", s);
+			// printf("\n");
 			pthread_mutex_unlock(&f->mutex[0]);
 			pthread_mutex_unlock(&f->mutex[index - 1]);
-		// }
-		// printf("\n");
-		// int s = 0;
-		// while (f->forks[s])
-		// {
-		// 	printf("  [%d]  ", f->forks[s]);
-		// 	s++;
-		// }
-		// printf("\n");
-		// sleep(2);
 	}
 	// printf("\n");
-	// int s = 0;
-	// while (f->forks[s])
-	// {
-	// 	printf("  [%d]  ", f->forks[s]);
-	// 	s++;
-	// }
-	// printf("\n");
-	// pthread_mutex_unlock(&f->mutex);
 }
 
 void	ft_usleep(t_thread *p, int l)
@@ -141,8 +148,9 @@ void	ft_usleep(t_thread *p, int l)
 		gettimeofday(&p->tv, NULL);
 		time = p->tv.tv_sec * 1000;
 		time += p->tv.tv_usec / 1000;
-		usleep(10);
+		usleep(100);
 	}
+	// usleep(10);
 }
 
 long long	ft_gettime(void)

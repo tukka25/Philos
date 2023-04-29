@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/26 17:35:34 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:48:00 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,7 @@ long long	ft_gettime(void);
 int			check_if_died(t_thread *p);
 void		join_threads(t_philo *p);
 int			everytime_check(t_forks *f);
+void		unlock_when_die(t_forks *f);
+int			forky(t_philo *p, int i);
+int			about_to_die(t_thread *p, int index);
 #endif
