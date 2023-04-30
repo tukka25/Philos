@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/27 14:33:01 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/30 21:54:32 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	main(int ac, char *argv[])
 		p.time += p.tv.tv_usec / 1000;
 		// printf("t = %d\n", p.tv.tv_usec);
 		if (threads_create(&p, &f) == 1)
+		{
+			destroy_everything(&p);
 			return (1);
+		}
 	}
 	else
 		write(2, "Invalid Arguments\n", 18);
@@ -40,13 +43,13 @@ int	threads_create(t_philo *p, t_forks *f)
 {
 	if (creating_threads(p, f) == 1)
 		return (1);
-	if (check_dying(p) == 1)
-	{
-		unlock_when_die(f);
-		join_threads(p);
-		return (1);
-	}
-	join_threads(p);
+	// if (check_dying(p) == 1)
+	// {
+	// 	unlock_when_die(f);
+	// 	// join_threads(p);
+	// 	return (1);
+	// }
+	// join_threads(p);
 	return (0);
 }
 

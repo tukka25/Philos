@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/29 18:48:00 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/04/30 23:51:37 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@ typedef struct s_forks
 	long long		current;
 	int				*forks;
 	pthread_mutex_t	*mutex;
+	pthread_mutex_t	fork;
 	pthread_mutex_t	mu;
+	pthread_mutex_t	e;
+	pthread_mutex_t	die;
+	pthread_mutex_t	pri;
+	pthread_mutex_t	checker;
+	pthread_mutex_t	loop_d;
+	pthread_mutex_t	every_t;
+	pthread_mutex_t	last_e;
 	int				*status;
 }	t_forks;
 
@@ -95,4 +103,6 @@ int			everytime_check(t_forks *f);
 void		unlock_when_die(t_forks *f);
 int			forky(t_philo *p, int i);
 int			about_to_die(t_thread *p, int index);
+void		destroy_everything(t_philo *p);
+int			check_fork_l(t_forks *f, int index);
 #endif
