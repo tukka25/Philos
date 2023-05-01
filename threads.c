@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 21:02:10 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:19:59 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,14 @@ int	creating_threads(t_philo *p, t_forks *f)
 {
 	p->in = 0;
 	p->t = malloc(p->philos_num * sizeof(pthread_t));
+	if (!p->t)
+		return (1);
 	p->threads = malloc(p->philos_num * sizeof(t_thread));
+	if (!p->threads)
+		return (1);
 	f->mutex = malloc(p->philos_num * sizeof(pthread_mutex_t));
+	if (!f->mutex)
+		return (1);
 	pthread_mutex_init(&f->fork, NULL);
 	pthread_mutex_init(&f->mu, NULL);
 	pthread_mutex_init(&f->pri, NULL);
@@ -55,19 +61,11 @@ int	check_dying(t_philo *p)
 		t = ft_gettime();
 		if (t - p->threads[i].last_eating >= p->die_t)
 		{
-			// if (forky(p, i) == 1)
-			// {
-			// 	// usleep(1);
-			// 	continue;
-			// }
-			// pthread_mutex_unlock(&p->threads->f->die);
 			pthread_mutex_lock(&p->threads->f->e);
 			p->threads[i].f->status[p->threads[i].index - 1] = -1;
-			if (p->threads[i].i != p->meals)
-				died(&p->threads[i], p->threads[i].index, p->threads->f->current);
+			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
 			pthread_mutex_unlock(&p->threads->f->e);
 			pthread_mutex_unlock(&p->threads->f->last_e);
-			// unlock_when_die(p->threads->f);
 			return (1);
 		}
 		pthread_mutex_unlock(&p->threads->f->last_e);

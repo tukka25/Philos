@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:35:07 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 21:09:45 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:20:58 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	unlock_when_die(t_forks *f)
 	int		i;
 
 	i = 0;
-	// pthread_mutex_lock(&f->mu);
+	pthread_mutex_lock(&f->fork);
 	while (f->forks[i])
 	{
 		// pthread_mutex_unlock(&f->die);
@@ -63,6 +63,7 @@ void	unlock_when_die(t_forks *f)
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&f->fork);
 	// pthread_mutex_unlock(&f->mu);
 	// pthread_mutex_unlock(&f->die);
 	// printf("i = %d\n", i);

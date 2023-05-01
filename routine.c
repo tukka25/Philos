@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 20:02:27 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:22:48 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,53 +33,36 @@ void	*routine(void *t)
 		pthread_mutex_unlock(&p->f->every_t);
 		if (check_for_forks(p->f, p->index) == 1)
 		{
-			// printf("index ");
 			pthread_mutex_lock(&p->f->every_t);
 			if (everytime_check(p->f) == 1)
 			{
-				// unlock_when_die(p->f);
 				pthread_mutex_unlock(&p->f->every_t);
 				return (0);
 			}
 			pthread_mutex_unlock(&p->f->every_t);
-				taking_forks(p->f, p->index);
-				pthread_mutex_lock(&p->f->mu);
-				if (took_fork(p, p->index, 0) == 1)
-				{
-					// return_forks(p->f, p->index);
-					pthread_mutex_lock(&p->f->die);
-					unlock_when_die(p->f);
-					pthread_mutex_unlock(&p->f->die);
-					pthread_mutex_lock(&p->f->e);
-					p->f->status[p->index - 1] = -1;
-					pthread_mutex_unlock(&p->f->e);
-					pthread_mutex_unlock(&p->f->mu);
-					return (0);
-				}
+			taking_forks(p->f, p->index);
+			pthread_mutex_lock(&p->f->mu);
+			if (took_fork(p, p->index, 0) == 1)
+			{
+				pthread_mutex_lock(&p->f->die);
+				unlock_when_die(p->f);
+				pthread_mutex_unlock(&p->f->die);
+				pthread_mutex_lock(&p->f->e);
+				p->f->status[p->index - 1] = -1;
+				pthread_mutex_unlock(&p->f->e);
 				pthread_mutex_unlock(&p->f->mu);
-				eating(p, p->index, 0);
-				p->i++;
-				// if (everytime_check(p->f) == 1)
-				// 	return (0);
-				sleeping(p, p->index, 0);
-				thinking(p, p->index, 0);
-			// }
-			// if (everytime_check(p->f) == 1)
-			// 	return (0);
+				return (0);
+			}
+			pthread_mutex_unlock(&p->f->mu);
+			eating(p, p->index, 0);
+			pthread_mutex_lock(&p->f->loop_d);
+			p->i++;
+			pthread_mutex_unlock(&p->f->loop_d);
+			sleeping(p, p->index, 0);
+			thinking(p, p->index, 0);
 		}
-		// pthread_mutex_lock(&p->f->loop_d);
-		// pthread_mutex_unlock(&p->f->loop_d);
-		// pthread_mutex_unlock(&p->f->mutex);
-		// if (0 - p->last_eating >= p->d_t)
-		// {
-		// 	died(p, p->index, 0);
-		// 	exit(0);
-		// }
-		// if (check_if_died(p) == 1)
-		// 	return (0);
-		// j++;
-		// sleep(1);
 	}
+	unlock_when_die(p->f);
 	// if (everytime_check(p->f) == 1)
 	// 	return (0);
 	return (0);
@@ -198,13 +181,12 @@ void	died(t_thread *p, int index, long long time)
 
 	(void)time;
 	b = ft_gettime();
-	pthread_mutex_lock(&p->f->pri);
-	printf("\033[0;31m %lld %d died\n", b - p->start_t, index);
-	pthread_mutex_unlock(&p->f->pri);
-	// gettimeofday(&p->tv, NULL);
-	// p->f->current = p->tv.tv_sec * 1000;
-	// p->f->current += p->tv.tv_usec / 1000;
-	// pthread_mutex_lock(&p->f->mu);
-	// p->f->status[index] = -1;
-	// pthread_mutex_unlock(&p->f->mu);
+	pthread_mutex_lock(&p->f->loop_d);
+	if (p->i != p->meals_n)
+	{
+		pthread_mutex_lock(&p->f->pri);
+		printf("\033[0;31m %lld %d died\n", b - p->start_t, index);
+		pthread_mutex_unlock(&p->f->pri);
+	}
+	pthread_mutex_unlock(&p->f->loop_d);
 }
