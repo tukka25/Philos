@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 01:01:44 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:11:00 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	check_dying(t_philo *p)
 	i = 0;
 	while (1)
 	{
+		pthread_mutex_lock(&p->threads->f->last_e);
 		t = ft_gettime();
 		if (t - p->threads[i].last_eating >= p->die_t)
 		{
@@ -59,13 +60,17 @@ int	check_dying(t_philo *p)
 			// 	// usleep(1);
 			// 	continue;
 			// }
-			pthread_mutex_lock(&p->threads->f->die);
+			// pthread_mutex_unlock(&p->threads->f->die);
+			pthread_mutex_lock(&p->threads->f->e);
 			p->threads[i].f->status[p->threads[i].index - 1] = -1;
 			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
+			pthread_mutex_unlock(&p->threads->f->e);
+			pthread_mutex_unlock(&p->threads->f->last_e);
 			// unlock_when_die(p->threads->f);
-			pthread_mutex_unlock(&p->threads->f->die);
 			return (1);
 		}
+		pthread_mutex_unlock(&p->threads->f->last_e);
+		usleep(50);
 		i++;
 		if (i == p->philos_num)
 			i = 0;

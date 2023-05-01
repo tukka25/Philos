@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 01:00:00 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:43:35 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*routine(void *t)
 		if (everytime_check(p->f) == 1)
 		{
 			// pthread_mutex_unlock(&p->f->loop_d);
-			unlock_when_die(p->f);
+			// unlock_when_die(p->f);
 			pthread_mutex_unlock(&p->f->every_t);
 			return (0);
 		}
@@ -37,7 +37,7 @@ void	*routine(void *t)
 			pthread_mutex_lock(&p->f->every_t);
 			if (everytime_check(p->f) == 1)
 			{
-				unlock_when_die(p->f);
+				// unlock_when_die(p->f);
 				pthread_mutex_unlock(&p->f->every_t);
 				return (0);
 			}
@@ -55,8 +55,10 @@ void	*routine(void *t)
 				if (took_fork(p, p->index, 0) == 1)
 				{
 					// return_forks(p->f, p->index);
-					unlock_when_die(p->f);
+					// unlock_when_die(p->f);
+					pthread_mutex_lock(&p->f->e);
 					p->f->status[p->index - 1] = -1;
+					pthread_mutex_unlock(&p->f->e);
 					pthread_mutex_unlock(&p->f->mu);
 					return (0);
 				}
@@ -100,7 +102,7 @@ void	eating(t_thread *p, int index, long long time)
 	pthread_mutex_lock(&p->f->every_t);
 	if (everytime_check(p->f) == 1)
 	{
-		unlock_when_die(p->f);
+		// unlock_when_die(p->f);
 		pthread_mutex_unlock(&p->f->every_t);
 		return ;
 	}
@@ -113,8 +115,6 @@ void	eating(t_thread *p, int index, long long time)
 	return_forks(p->f, p->index);
 	pthread_mutex_unlock(&p->f->fork);
 	gettimeofday(&p->tv, NULL);
-	p->f->current = p->tv.tv_sec * 1000;
-	p->f->current += p->tv.tv_usec / 1000;
 }
 
 void	sleeping(t_thread *p, int index, long long time)
@@ -126,7 +126,7 @@ void	sleeping(t_thread *p, int index, long long time)
 	pthread_mutex_lock(&p->f->every_t);
 	if (everytime_check(p->f) == 1)
 	{
-		unlock_when_die(p->f);
+		// unlock_when_die(p->f);
 		pthread_mutex_unlock(&p->f->every_t);
 		return ;
 	}
@@ -153,12 +153,20 @@ void	thinking(t_thread *p, int index, long long time)
 	pthread_mutex_lock(&p->f->every_t);
 	if (everytime_check(p->f) == 1)
 	{
-		unlock_when_die(p->f);
+		// unlock_when_die(p->f);
 		pthread_mutex_unlock(&p->f->every_t);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);
 	ft_usleep(p, 2);
+	pthread_mutex_lock(&p->f->every_t);
+	if (everytime_check(p->f) == 1)
+	{
+		// unlock_when_die(p->f);
+		pthread_mutex_unlock(&p->f->every_t);
+		return ;
+	}
+	pthread_mutex_unlock(&p->f->every_t);
 	pthread_mutex_lock(&p->f->pri);
 	printf("\033[0;35m %lld %d is thinking\n", b - p->start_t, index);
 	pthread_mutex_unlock(&p->f->pri);
@@ -173,7 +181,7 @@ int	took_fork(t_thread *p, int index, long long time)
 	b = ft_gettime();
 	if (everytime_check(p->f) == 1)
 	{
-		unlock_when_die(p->f);
+		// unlock_when_die(p->f);
 		return (0);
 	}
 	pthread_mutex_lock(&p->f->pri);
@@ -182,7 +190,7 @@ int	took_fork(t_thread *p, int index, long long time)
 	if (check_if_died(p) == 1)
 	{
 		p->died = 1;
-		unlock_when_die(p->f);
+		// unlock_when_die(p->f);
 		// died(p, p->index, p->f->current);
 		return (1);
 	}

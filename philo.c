@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/30 21:54:32 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:56:37 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,11 @@ void	init_forks(t_forks *f, int philos_num)
 	i = 0;
 	j = 1;
 	f->forks = malloc((philos_num + 1) * sizeof(int));
+	if (!f->forks)
+		return ;
 	f->status = malloc((philos_num + 1) * sizeof(int));
+	if (!f->status)
+		return ;
 	if (!f->forks)
 		return ;
 	while (i < philos_num)
