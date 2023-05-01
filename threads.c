@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 21:19:59 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:13:43 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,7 @@ int	creating_threads(t_philo *p, t_forks *f)
 	f->mutex = malloc(p->philos_num * sizeof(pthread_mutex_t));
 	if (!f->mutex)
 		return (1);
-	pthread_mutex_init(&f->fork, NULL);
-	pthread_mutex_init(&f->mu, NULL);
-	pthread_mutex_init(&f->pri, NULL);
-	pthread_mutex_init(&f->die, NULL);
-	pthread_mutex_init(&f->e, NULL);
-	pthread_mutex_init(&f->every_t, NULL);
-	pthread_mutex_init(&f->checker, NULL);
-	pthread_mutex_init(&f->loop_d, NULL);
-	pthread_mutex_init(&f->last_e, NULL);
+	init_mutexs(f);
 	init_forks(f, p->philos_num);
 	thread_init(p, f);
 	if (p->philos_num == 1)
@@ -69,7 +61,6 @@ int	check_dying(t_philo *p)
 			return (1);
 		}
 		pthread_mutex_unlock(&p->threads->f->last_e);
-		usleep(50);
 		i++;
 		if (i == p->philos_num)
 			i = 0;

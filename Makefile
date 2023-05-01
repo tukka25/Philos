@@ -7,13 +7,14 @@ SRCS =	philo.c         \
 		threads.c       \
 		utils2.c        \
 		routine_utils.c \
-		destory.c
+		destory.c       \
+		life_cycle.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS =  -g3 -Wall -Wextra -Werror -pthread #-fsanitize=thread
+CFLAGS =  -g3 -Wall -Wextra -Werror -pthread
 
 all:$(NAME)
 

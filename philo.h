@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 20:01:47 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:25:55 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ long		ph_atoi(char *str, t_philo *p);
 int			ft_isdigit_ph(char *str);
 int			ft_isascii(int c);
 void		ignore_zero(char *str, t_philo *p);
-void		*routine(void *);
+void		*routine(void *t);
 int			threads_create(t_philo *p, t_forks *f);
 void		thread_init(t_philo *p, t_forks *f);
 void		init(t_philo *p);
@@ -102,8 +102,11 @@ int			check_if_died(t_thread *p);
 void		join_threads(t_philo *p);
 int			everytime_check(t_forks *f);
 void		unlock_when_die(t_forks *f);
-int			forky(t_philo *p, int i);
 int			about_to_die(t_thread *p, int index);
 void		destroy_everything(t_philo *p);
-int			check_fork_l(t_forks *f, int index);
+void		init_status(t_forks *f, int philos_num);
+void		init_mutexs(t_forks *f);
+void		routine2(t_thread *p);
+int			inside_checker(t_thread *p);
+int			status_checker(t_thread *p);
 #endif

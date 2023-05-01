@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 20:02:40 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:58:51 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,14 @@ int	main(int ac, char *argv[])
 	t_philo			p;
 	t_forks			f;
 
-	// pthread_mutex_init(&f.mutex, NULL);
 	p.f = 0;
 	if (ac >= 5 && ac <= 6)
 	{
-		// printf("welcome to the shit\n");
 		if (pars(&p, argv) < 0)
 			return (1);
 		gettimeofday(&p.tv, NULL);
 		p.time = p.tv.tv_sec * 1000;
 		p.time += p.tv.tv_usec / 1000;
-		// printf("t = %d\n", p.tv.tv_usec);
 		if (threads_create(&p, &f) == 1)
 		{
 			destroy_everything(&p);
@@ -36,21 +33,25 @@ int	main(int ac, char *argv[])
 	}
 	else
 		write(2, "Invalid Arguments\n", 18);
-	// pthread_mutex_destroy(&f.mutex);
 }
 
 int	threads_create(t_philo *p, t_forks *f)
 {
 	if (creating_threads(p, f) == 1)
 		return (1);
-	// if (check_dying(p) == 1)
-	// {
-	// 	unlock_when_die(f);
-	// 	// join_threads(p);
-	// 	return (1);
-	// }
-	// join_threads(p);
 	return (0);
+}
+
+static void	setting_values(t_philo *p, t_forks *f, int i)
+{
+	p->threads[i].start_t = p->time;
+	p->threads[i].f = f;
+	p->threads[i].f->forks = f->forks;
+	p->threads[i].f->status = f->status;
+	p->threads[i].f->mutex = f->mutex;
+	p->threads[i].last_eating = p->time;
+	p->threads[i].f->current = p->time;
+	p->threads[i].died = 0;
 }
 
 void	thread_init(t_philo *p, t_forks *f)
@@ -77,14 +78,7 @@ void	thread_init(t_philo *p, t_forks *f)
 			p->threads[i].meals_n = p->meals;
 		else
 			p->threads[i].meals_n = 2147483647;
-		p->threads[i].start_t = p->time;
-		p->threads[i].f = f;
-		p->threads[i].f->forks = f->forks;
-		p->threads[i].f->status = f->status;
-		p->threads[i].f->mutex = f->mutex;
-		p->threads[i].last_eating = p->time;
-		p->threads[i].f->current = p->time;
-		p->threads[i].died = 0;
+		setting_values(p, f, i);
 		i++;
 	}
 }
@@ -99,9 +93,6 @@ void	init_forks(t_forks *f, int philos_num)
 	f->forks = malloc((philos_num + 1) * sizeof(int));
 	if (!f->forks)
 		return ;
-	f->status = malloc((philos_num + 1) * sizeof(int));
-	if (!f->status)
-		return ;
 	if (!f->forks)
 		return ;
 	while (i < philos_num)
@@ -111,11 +102,5 @@ void	init_forks(t_forks *f, int philos_num)
 		j++;
 	}
 	f->forks[i] = '\0';
-	i = 0;
-	while (i < philos_num)
-	{
-		f->status[i] = j;
-		i++;
-	}
-	f->status[i] = '\0';
+	init_status(f, philos_num);
 }
