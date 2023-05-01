@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/04/30 23:51:37 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:01:47 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_forks
 typedef struct s_thread
 {
 	long long		k;
+	int				i;
 	int				index;
 	int				p_n;
 	int				died;

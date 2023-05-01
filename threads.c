@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 17:11:00 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:02:10 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	check_dying(t_philo *p)
 			// pthread_mutex_unlock(&p->threads->f->die);
 			pthread_mutex_lock(&p->threads->f->e);
 			p->threads[i].f->status[p->threads[i].index - 1] = -1;
-			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
+			if (p->threads[i].i != p->meals)
+				died(&p->threads[i], p->threads[i].index, p->threads->f->current);
 			pthread_mutex_unlock(&p->threads->f->e);
 			pthread_mutex_unlock(&p->threads->f->last_e);
 			// unlock_when_die(p->threads->f);

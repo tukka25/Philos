@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 17:23:49 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:24:15 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ void	taking_forks(t_forks *f, int index)
 {
 	// printf("\n");
 	// pthread_mutex_lock(&f->checker);
-	// pthread_mutex_lock(&f->fork);
+	pthread_mutex_lock(&f->fork);
 	if (f->forks[index] != '\0')
 	{
+		pthread_mutex_unlock(&f->fork);
 		pthread_mutex_lock(&f->mutex[index - 1]);
 		pthread_mutex_lock(&f->mutex[index]);
 		f->forks[index - 1] = -1;
@@ -26,6 +27,7 @@ void	taking_forks(t_forks *f, int index)
 	}
 	else
 	{
+		pthread_mutex_unlock(&f->fork);
 		pthread_mutex_lock(&f->mutex[0]);
 		pthread_mutex_lock(&f->mutex[index - 1]);
 		f->forks[0] = -1;
@@ -43,9 +45,10 @@ int	check_for_forks(t_forks *f, int index)
 	i = 0;
 	if (f->forks[index] != '\0')
 	{
-		// pthread_mutex_lock(&f->fork);
-		i = check_fork_l(f, index);
-		// pthread_mutex_unlock(&f->fork);
+		if (f->forks[index] != -1 && f->forks[index - 1] != -1)
+		{
+			i = 1;
+		}
 	}
 	else
 	{

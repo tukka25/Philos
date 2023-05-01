@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 16:56:37 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:02:40 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,16 @@ void	thread_init(t_philo *p, t_forks *f)
 	i = 0;
 	while (i < p->philos_num)
 	{
+		p->threads[i].i = 0;
 		p->threads[i].index = i + 1;
 		p->threads[i].p_n = p->philos_num;
 		p->threads[i].d_t = p->die_t;
 		p->threads[i].sl_t = p->sleep_t;
 		p->threads[i].e_t = p->eat_t;
-		p->threads[i].meals_n = p->meals;
+		if (p->meals > 0)
+			p->threads[i].meals_n = p->meals;
+		else
+			p->threads[i].meals_n = 2147483647;
 		p->threads[i].start_t = p->time;
 		p->threads[i].f = f;
 		p->threads[i].f->forks = f->forks;

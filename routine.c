@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 18:43:35 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:02:27 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*routine(void *t)
 {
 	t_thread	*p = (t_thread *)t;
-	while (1)
+	while (p->i < p->meals_n)
 	{
 		// if (everytime_check(p->f) == 1)
 		// 	return (0);
@@ -42,20 +42,14 @@ void	*routine(void *t)
 				return (0);
 			}
 			pthread_mutex_unlock(&p->f->every_t);
-			// if (everytime_check(p->f) == 1)
-			// {
-			// 	unlock_when_die(p->f);
-			// 	return (0);
-			// }
-			// if (about_to_die(p, p->index))
-			// if (about_to_die(p, p->index) == 0)
-			// {
 				taking_forks(p->f, p->index);
 				pthread_mutex_lock(&p->f->mu);
 				if (took_fork(p, p->index, 0) == 1)
 				{
 					// return_forks(p->f, p->index);
-					// unlock_when_die(p->f);
+					pthread_mutex_lock(&p->f->die);
+					unlock_when_die(p->f);
+					pthread_mutex_unlock(&p->f->die);
 					pthread_mutex_lock(&p->f->e);
 					p->f->status[p->index - 1] = -1;
 					pthread_mutex_unlock(&p->f->e);
@@ -64,6 +58,7 @@ void	*routine(void *t)
 				}
 				pthread_mutex_unlock(&p->f->mu);
 				eating(p, p->index, 0);
+				p->i++;
 				// if (everytime_check(p->f) == 1)
 				// 	return (0);
 				sleeping(p, p->index, 0);
