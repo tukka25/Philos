@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:35:07 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:11:15 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:25:42 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,45 @@ int	everytime_check(t_forks *f)
 	return (0);
 }
 
-void	unlock_when_die(t_forks *f)
+void	unlock_when_die(t_thread *p)
 {
-	int		i;
-
-	i = 0;
-	pthread_mutex_lock(&f->fork);
-	while (f->forks[i])
+	pthread_mutex_lock(&p->f->fork);
+	if (p->f->forks[p->index] != '\0')
 	{
-		if (f->forks[i] == -1)
-			pthread_mutex_unlock(&f->mutex[i]);
-		i++;
+		if (p->f->forks[p->index - 1] == -1 && p->f->forks[p->index] == -1)
+		{
+			pthread_mutex_unlock(&p->f->mutex[p->index - 1]);
+			pthread_mutex_unlock(&p->f->mutex[p->index]);
+			p->f->forks[p->index - 1] = p->index;
+			p->f->forks[p->index] = p->index + 1;
+		}
 	}
-	pthread_mutex_unlock(&f->fork);
+	else
+	{
+		if (p->f->forks[p->index - 1] == -1 && p->f->forks[0] == -1)
+		{
+			pthread_mutex_unlock(&p->f->mutex[0]);
+			pthread_mutex_unlock(&p->f->mutex[p->index - 1]);
+			p->f->forks[p->index - 1] = p->index;
+			p->f->forks[0] = 1;
+		}
+	}
+	pthread_mutex_unlock(&p->f->fork);
 }
 
-int	about_to_die(t_thread *p, int index)
+void	unlock_inside(t_forks *f, int i)
 {
-	long long	t;
-
-	(void)index;
-	t = ft_gettime();
-	if (t - p->last_eating >= p->d_t % 2)
-		return (0);
-	return (1);
+	pthread_mutex_lock(&f->fork);
+	if (f->forks[i - 1] == -1)
+	{
+		pthread_mutex_unlock(&f->mutex[i - 1]);
+		f->forks[i - 1] = i + 1;
+		// pthread_mutex_unlock(&f->fork);
+	}
+	if (f->forks[i] == -1)
+	{
+		pthread_mutex_unlock(&f->mutex[i]);
+		f->forks[i] = i + 1;
+	}
+	pthread_mutex_unlock(&f->fork);
 }

@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:20:06 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:25:55 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/03 22:09:38 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ long long	ft_gettime(void);
 int			check_if_died(t_thread *p);
 void		join_threads(t_philo *p);
 int			everytime_check(t_forks *f);
-void		unlock_when_die(t_forks *f);
+void		unlock_when_die(t_thread *p);
 int			about_to_die(t_thread *p, int index);
 void		destroy_everything(t_philo *p);
 void		init_status(t_forks *f, int philos_num);
@@ -109,4 +109,6 @@ void		init_mutexs(t_forks *f);
 void		routine2(t_thread *p);
 int			inside_checker(t_thread *p);
 int			status_checker(t_thread *p);
+void		unlock_inside(t_forks *f, int i);
+int			check_if_taken(t_forks *f);
 #endif

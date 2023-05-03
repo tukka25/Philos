@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:10:52 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:34:16 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,20 @@ void	taking_forks(t_forks *f, int index)
 		pthread_mutex_unlock(&f->fork);
 		pthread_mutex_lock(&f->mutex[index - 1]);
 		pthread_mutex_lock(&f->mutex[index]);
+		pthread_mutex_lock(&f->fork);
 		f->forks[index - 1] = -1;
 		f->forks[index] = -1;
+		pthread_mutex_unlock(&f->fork);
 	}
 	else
 	{
 		pthread_mutex_unlock(&f->fork);
 		pthread_mutex_lock(&f->mutex[0]);
 		pthread_mutex_lock(&f->mutex[index - 1]);
+		pthread_mutex_lock(&f->fork);
 		f->forks[0] = -1;
 		f->forks[index - 1] = -1;
+		pthread_mutex_unlock(&f->fork);
 	}
 }
 
@@ -60,11 +64,12 @@ int	check_for_forks(t_forks *f, int index)
 
 void	return_forks(t_forks *f, int index)
 {
-	pthread_mutex_lock(&f->checker);
+	pthread_mutex_lock(&f->fork);
 	if (f->forks[index] != '\0')
 	{
 		f->forks[index - 1] = index;
 		f->forks[index] = index + 1;
+		pthread_mutex_unlock(&f->fork);
 		pthread_mutex_unlock(&f->mutex[index - 1]);
 		pthread_mutex_unlock(&f->mutex[index]);
 	}
@@ -72,10 +77,10 @@ void	return_forks(t_forks *f, int index)
 	{
 		f->forks[0] = 1;
 		f->forks[index - 1] = index;
+		pthread_mutex_unlock(&f->fork);
 		pthread_mutex_unlock(&f->mutex[0]);
 		pthread_mutex_unlock(&f->mutex[index - 1]);
 	}
-	pthread_mutex_unlock(&f->checker);
 }
 
 void	ft_usleep(t_thread *p, int l)
@@ -94,8 +99,9 @@ void	ft_usleep(t_thread *p, int l)
 		gettimeofday(&p->tv, NULL);
 		time = p->tv.tv_sec * 1000;
 		time += p->tv.tv_usec / 1000;
-		usleep(100);
+		usleep(150);
 	}
+	// usleep(150);
 }
 
 long long	ft_gettime(void)

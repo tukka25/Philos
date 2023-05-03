@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:27:08 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:41:12 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*routine(void *t)
 			routine2(p);
 		}
 	}
-	unlock_when_die(p->f);
+	unlock_when_die(p);
 	return (0);
 }
 
@@ -50,6 +50,7 @@ void	eating(t_thread *p, int index, long long time)
 	if (everytime_check(p->f) == 1)
 	{
 		pthread_mutex_unlock(&p->f->every_t);
+		unlock_inside(p->f, p->index);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);
@@ -57,10 +58,7 @@ void	eating(t_thread *p, int index, long long time)
 	printf("\033[0;32m %lld %d is eating\n", b - p->start_t, index);
 	pthread_mutex_unlock(&p->f->pri);
 	ft_usleep(p, p->e_t);
-	pthread_mutex_lock(&p->f->fork);
 	return_forks(p->f, p->index);
-	pthread_mutex_unlock(&p->f->fork);
-	gettimeofday(&p->tv, NULL);
 }
 
 void	sleeping(t_thread *p, int index, long long time)
@@ -73,6 +71,7 @@ void	sleeping(t_thread *p, int index, long long time)
 	if (everytime_check(p->f) == 1)
 	{
 		pthread_mutex_unlock(&p->f->every_t);
+		unlock_inside(p->f, p->index);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);
@@ -83,7 +82,7 @@ void	sleeping(t_thread *p, int index, long long time)
 	b = ft_gettime();
 	if (everytime_check(p->f) == 1)
 	{
-		unlock_when_die(p->f);
+		// unlock_when_die(p->f);
 		return ;
 	}
 }
@@ -98,10 +97,12 @@ void	thinking(t_thread *p, int index, long long time)
 	if (everytime_check(p->f) == 1)
 	{
 		pthread_mutex_unlock(&p->f->every_t);
+		// unlock_inside(p->f, p->index);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);
 	ft_usleep(p, 2);
+	usleep(1500);
 	pthread_mutex_lock(&p->f->every_t);
 	if (everytime_check(p->f) == 1)
 	{

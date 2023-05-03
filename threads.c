@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:13:43 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/03 21:27:45 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	check_dying(t_philo *p)
 		{
 			pthread_mutex_lock(&p->threads->f->e);
 			p->threads[i].f->status[p->threads[i].index - 1] = -1;
-			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
 			pthread_mutex_unlock(&p->threads->f->e);
+			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
 			pthread_mutex_unlock(&p->threads->f->last_e);
 			return (1);
 		}
@@ -67,11 +67,16 @@ int	check_dying(t_philo *p)
 	}
 }
 
-// int	forky(t_philo *p, int i)
-// {
-// 	if (p->threads->f->forks[p->threads[i].index - 1] == -1)
-// 	{
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+int	check_if_taken(t_forks *f)
+{
+	int	i;
+
+	i = 0;
+	while (f->forks[i])
+	{
+		if (f->forks[i] == -1)
+			return (1);
+		i++;
+	}
+	return (0);
+}

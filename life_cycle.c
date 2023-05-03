@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 22:17:18 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:26:29 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:15:47 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	inside_checker(t_thread *p)
 {
 	if (took_fork(p, p->index, 0) == 1)
 	{
-		pthread_mutex_lock(&p->f->die);
-		unlock_when_die(p->f);
-		pthread_mutex_unlock(&p->f->die);
+		// pthread_mutex_lock(&p->f->die);
+		// unlock_when_die(p->f);
+		// pthread_mutex_unlock(&p->f->die);
 		pthread_mutex_lock(&p->f->e);
 		p->f->status[p->index - 1] = -1;
 		pthread_mutex_unlock(&p->f->e);
