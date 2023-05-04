@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:21:14 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 21:58:51 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:33:17 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int ac, char *argv[])
 	t_forks			f;
 
 	p.f = 0;
+	p.in = 0;
 	if (ac >= 5 && ac <= 6)
 	{
 		if (pars(&p, argv) < 0)
@@ -25,11 +26,8 @@ int	main(int ac, char *argv[])
 		gettimeofday(&p.tv, NULL);
 		p.time = p.tv.tv_sec * 1000;
 		p.time += p.tv.tv_usec / 1000;
-		if (threads_create(&p, &f) == 1)
-		{
-			destroy_everything(&p);
-			return (1);
-		}
+		threads_create(&p, &f);
+		destroy_everything(&p);
 	}
 	else
 		write(2, "Invalid Arguments\n", 18);
@@ -93,14 +91,19 @@ void	init_forks(t_forks *f, int philos_num)
 	f->forks = malloc((philos_num + 1) * sizeof(int));
 	if (!f->forks)
 		return ;
+	f->arr = malloc((philos_num + 1) * sizeof(int));
+	if (!f->arr)
+		return ;
 	if (!f->forks)
 		return ;
 	while (i < philos_num)
 	{
 		f->forks[i] = j;
+		f->arr[i] = j;
 		i++;
 		j++;
 	}
 	f->forks[i] = '\0';
+	f->arr[i] = '\0';
 	init_status(f, philos_num);
 }

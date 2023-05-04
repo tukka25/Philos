@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 22:07:46 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:12:12 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:34:14 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ void	destroy_everything(t_philo *p)
 	int		i;
 
 	i = 0;
+	free(p->threads->f->forks);
+	free(p->threads->f->status);
+	free(p->threads->f->arr);
 	while (i < p->philos_num)
 	{
 		pthread_mutex_destroy(&p->threads->f->mutex[i]);
 		i++;
 	}
+	free(p->threads->f->mutex);
 	pthread_mutex_destroy(&p->threads->f->mu);
 	pthread_mutex_destroy(&p->threads->f->pri);
 	pthread_mutex_destroy(&p->threads->f->die);
@@ -37,9 +41,6 @@ void	destroy_everything(t_philo *p)
 	pthread_mutex_destroy(&p->threads->f->loop_d);
 	pthread_mutex_destroy(&p->threads->f->fork);
 	pthread_mutex_destroy(&p->threads->f->last_e);
-	free(p->threads->f->forks);
-	free(p->threads->f->status);
-	free(p->threads->f->mutex);
 	free_threads(p);
 }
 

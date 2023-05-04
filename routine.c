@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/03 23:41:12 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:25:07 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*routine(void *t)
 	{
 		if (status_checker(p) == 0)
 			return (0);
+		if (greedy_shit_checker(p) == 1)
+			ft_usleep(p, p->e_t / 2 + p->e_t / 4);
 		if (check_for_forks(p->f, p->index) == 1)
 		{
 			if (status_checker(p) == 0)
@@ -57,6 +59,7 @@ void	eating(t_thread *p, int index, long long time)
 	pthread_mutex_lock(&p->f->pri);
 	printf("\033[0;32m %lld %d is eating\n", b - p->start_t, index);
 	pthread_mutex_unlock(&p->f->pri);
+	greedy_shit(p);
 	ft_usleep(p, p->e_t);
 	return_forks(p->f, p->index);
 }
@@ -71,7 +74,6 @@ void	sleeping(t_thread *p, int index, long long time)
 	if (everytime_check(p->f) == 1)
 	{
 		pthread_mutex_unlock(&p->f->every_t);
-		unlock_inside(p->f, p->index);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);
@@ -81,10 +83,7 @@ void	sleeping(t_thread *p, int index, long long time)
 	ft_usleep(p, p->sl_t);
 	b = ft_gettime();
 	if (everytime_check(p->f) == 1)
-	{
-		// unlock_when_die(p->f);
 		return ;
-	}
 }
 
 void	thinking(t_thread *p, int index, long long time)
@@ -97,12 +96,11 @@ void	thinking(t_thread *p, int index, long long time)
 	if (everytime_check(p->f) == 1)
 	{
 		pthread_mutex_unlock(&p->f->every_t);
-		// unlock_inside(p->f, p->index);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);
 	ft_usleep(p, 2);
-	usleep(1500);
+	usleep(700);
 	pthread_mutex_lock(&p->f->every_t);
 	if (everytime_check(p->f) == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/03 21:27:45 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:25:57 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	creating_threads(t_philo *p, t_forks *f)
 {
-	p->in = 0;
 	p->t = malloc(p->philos_num * sizeof(pthread_t));
 	if (!p->t)
 		return (1);
@@ -35,6 +34,7 @@ int	creating_threads(t_philo *p, t_forks *f)
 	while (p->in < p->philos_num)
 	{
 		pthread_create(&p->t[p->in], NULL, &routine, &p->threads[p->in]);
+		usleep(50);
 		p->in++;
 	}
 	join_threads(p);

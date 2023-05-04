@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/03 23:34:16 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:01:58 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void	ft_usleep(t_thread *p, int l)
 		gettimeofday(&p->tv, NULL);
 		time = p->tv.tv_sec * 1000;
 		time += p->tv.tv_usec / 1000;
-		usleep(150);
+		usleep(100);
 	}
-	// usleep(150);
+	usleep(10);
 }
 
 long long	ft_gettime(void)

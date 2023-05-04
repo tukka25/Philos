@@ -6,13 +6,13 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:35:07 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/03 23:25:42 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:25:17 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	join_threads(t_philo *p)
+int	join_threads(t_philo *p)
 {
 	int		i;
 
@@ -24,6 +24,7 @@ void	join_threads(t_philo *p)
 		pthread_join(p->t[i], NULL);
 		i++;
 	}
+	return (1);
 }
 
 int	everytime_check(t_forks *f)
@@ -78,7 +79,6 @@ void	unlock_inside(t_forks *f, int i)
 	{
 		pthread_mutex_unlock(&f->mutex[i - 1]);
 		f->forks[i - 1] = i + 1;
-		// pthread_mutex_unlock(&f->fork);
 	}
 	if (f->forks[i] == -1)
 	{
