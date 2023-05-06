@@ -21,8 +21,8 @@ void	*routine(void *t)
 	{
 		if (status_checker(p) == 0)
 			return (0);
-		if (greedy_shit_checker(p) == 1)
-			ft_usleep(p, p->e_t / 2 + p->e_t / 4);
+		// if (greedy_shit_checker(p) == 1)
+		// 	ft_usleep(p, p->e_t);
 		if (check_for_forks(p->f, p->index) == 1)
 		{
 			if (status_checker(p) == 0)
@@ -35,7 +35,10 @@ void	*routine(void *t)
 			routine2(p);
 		}
 	}
-	unlock_when_die(p);
+	pthread_mutex_lock(&p->f->bye_l);
+	p->f->bye++;
+	pthread_mutex_unlock(&p->f->bye_l);
+	// unlock_when_die(p);
 	return (0);
 }
 
@@ -52,7 +55,7 @@ void	eating(t_thread *p, int index, long long time)
 	if (everytime_check(p->f) == 1)
 	{
 		pthread_mutex_unlock(&p->f->every_t);
-		unlock_inside(p->f, p->index);
+		return_forks(p->f, p->index);
 		return ;
 	}
 	pthread_mutex_unlock(&p->f->every_t);

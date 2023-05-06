@@ -53,8 +53,8 @@ void	unlock_when_die(t_thread *p)
 	{
 		if (p->f->forks[p->index - 1] == -1 && p->f->forks[p->index] == -1)
 		{
-			pthread_mutex_unlock(&p->f->mutex[p->index - 1]);
 			pthread_mutex_unlock(&p->f->mutex[p->index]);
+			pthread_mutex_unlock(&p->f->mutex[p->index - 1]);
 			p->f->forks[p->index - 1] = p->index;
 			p->f->forks[p->index] = p->index + 1;
 		}

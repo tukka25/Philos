@@ -36,7 +36,9 @@ typedef struct s_forks
 	pthread_mutex_t	loop_d;
 	pthread_mutex_t	every_t;
 	pthread_mutex_t	last_e;
+	pthread_mutex_t	bye_l;
 	int				*status;
+	int				bye;
 }	t_forks;
 
 typedef struct s_thread

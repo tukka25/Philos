@@ -26,8 +26,8 @@ int	main(int ac, char *argv[])
 		gettimeofday(&p.tv, NULL);
 		p.time = p.tv.tv_sec * 1000;
 		p.time += p.tv.tv_usec / 1000;
-		threads_create(&p, &f);
-		destroy_everything(&p);
+		if (threads_create(&p, &f) == 1)
+			destroy_everything(&p);
 	}
 	else
 		write(2, "Invalid Arguments\n", 18);
@@ -35,8 +35,9 @@ int	main(int ac, char *argv[])
 
 int	threads_create(t_philo *p, t_forks *f)
 {
-	if (creating_threads(p, f) == 1)
-		return (1);
+	if (p->philos_num > 0)
+		if (creating_threads(p, f) == 1)
+			return (1);
 	return (0);
 }
 
@@ -49,6 +50,7 @@ static void	setting_values(t_philo *p, t_forks *f, int i)
 	p->threads[i].f->mutex = f->mutex;
 	p->threads[i].last_eating = p->time;
 	p->threads[i].f->current = p->time;
+	p->threads[i].f->bye = f->bye;
 	p->threads[i].died = 0;
 }
 
@@ -58,6 +60,7 @@ void	thread_init(t_philo *p, t_forks *f)
 
 	i = 0;
 	f->current = p->time;
+	f->bye = 0;
 	while (i < p->philos_num)
 	{
 		pthread_mutex_init(&f->mutex[i], NULL);

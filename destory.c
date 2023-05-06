@@ -41,6 +41,7 @@ void	destroy_everything(t_philo *p)
 	pthread_mutex_destroy(&p->threads->f->loop_d);
 	pthread_mutex_destroy(&p->threads->f->fork);
 	pthread_mutex_destroy(&p->threads->f->last_e);
+	pthread_mutex_destroy(&p->threads->f->bye_l);
 	free_threads(p);
 }
 
@@ -87,4 +88,5 @@ void	init_mutexs(t_forks *f)
 	pthread_mutex_init(&f->checker, NULL);
 	pthread_mutex_init(&f->loop_d, NULL);
 	pthread_mutex_init(&f->last_e, NULL);
+	pthread_mutex_init(&f->bye_l, NULL);
 }

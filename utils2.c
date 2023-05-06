@@ -101,7 +101,7 @@ void	ft_usleep(t_thread *p, int l)
 		time += p->tv.tv_usec / 1000;
 		usleep(100);
 	}
-	usleep(10);
+	// usleep(10);
 }
 
 long long	ft_gettime(void)

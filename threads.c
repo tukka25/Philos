@@ -37,7 +37,8 @@ int	creating_threads(t_philo *p, t_forks *f)
 		usleep(50);
 		p->in++;
 	}
-	join_threads(p);
+	if (join_threads(p) == 1)
+		return (1);
 	return (0);
 }
 
@@ -47,7 +48,8 @@ int	check_dying(t_philo *p)
 	long long	t;
 
 	i = 0;
-	while (1)
+	pthread_mutex_lock(&p->threads->f->bye_l);
+	while (p->threads->f->bye == p->philos_num)
 	{
 		pthread_mutex_lock(&p->threads->f->last_e);
 		t = ft_gettime();
@@ -58,6 +60,7 @@ int	check_dying(t_philo *p)
 			pthread_mutex_unlock(&p->threads->f->e);
 			died(&p->threads[i], p->threads[i].index, p->threads->f->current);
 			pthread_mutex_unlock(&p->threads->f->last_e);
+			pthread_mutex_unlock(&p->threads->f->bye_l);
 			return (1);
 		}
 		pthread_mutex_unlock(&p->threads->f->last_e);
@@ -65,6 +68,8 @@ int	check_dying(t_philo *p)
 		if (i == p->philos_num)
 			i = 0;
 	}
+	pthread_mutex_unlock(&p->threads->f->bye_l);
+	return (1);
 }
 
 int	check_if_taken(t_forks *f)
