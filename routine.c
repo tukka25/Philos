@@ -21,8 +21,8 @@ void	*routine(void *t)
 	{
 		if (status_checker(p) == 0)
 			return (0);
-		// if (greedy_shit_checker(p) == 1)
-		// 	ft_usleep(p, p->e_t);
+		if (greedy_shit_checker(p) == 1)
+			ft_usleep(p, p->e_t);
 		if (check_for_forks(p->f, p->index) == 1)
 		{
 			if (status_checker(p) == 0)

@@ -26,6 +26,7 @@ int	inside_checker(t_thread *p)
 {
 	if (took_fork(p, p->index, 0) == 1)
 	{
+		unlock_when_die(p);
 		pthread_mutex_lock(&p->f->e);
 		p->f->status[p->index - 1] = -1;
 		pthread_mutex_unlock(&p->f->e);

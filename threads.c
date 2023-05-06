@@ -49,7 +49,7 @@ int	check_dying(t_philo *p)
 
 	i = 0;
 	pthread_mutex_lock(&p->threads->f->bye_l);
-	while (p->threads->f->bye == p->philos_num)
+	while (p->threads->f->bye != p->philos_num)
 	{
 		pthread_mutex_lock(&p->threads->f->last_e);
 		t = ft_gettime();
