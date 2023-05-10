@@ -14,7 +14,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS =  -g3 -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 all:$(NAME)
 

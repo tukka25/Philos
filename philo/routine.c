@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:24:37 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/04 19:25:07 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:11:28 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	*routine(void *t)
 	pthread_mutex_lock(&p->f->bye_l);
 	p->f->bye++;
 	pthread_mutex_unlock(&p->f->bye_l);
-	// unlock_when_die(p);
 	return (0);
 }
 

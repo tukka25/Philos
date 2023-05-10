@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 23:29:01 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/04 18:01:58 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:12:32 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	ft_usleep(t_thread *p, int l)
 		time += p->tv.tv_usec / 1000;
 		usleep(100);
 	}
-	// usleep(10);
 }
 
 long long	ft_gettime(void)

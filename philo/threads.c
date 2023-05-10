@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 19:25:50 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/04 19:25:57 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:33:22 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ int	creating_threads(t_philo *p, t_forks *f)
 	init_mutexs(f);
 	init_forks(f, p->philos_num);
 	thread_init(p, f);
-	if (p->philos_num == 1)
-	{
-		died(&p->threads[0], 1, 0);
-		return (1);
-	}
+	if (p->philos_num == 1 || p->threads->meals_n == 0)
+		return (ft_usleep(&p->threads[0], p->die_t),
+			died(&p->threads[0], 1, 0), 1);
 	while (p->in < p->philos_num)
 	{
 		pthread_create(&p->t[p->in], NULL, &routine, &p->threads[p->in]);
@@ -64,8 +62,7 @@ int	check_dying(t_philo *p)
 			return (1);
 		}
 		pthread_mutex_unlock(&p->threads->f->last_e);
-		i++;
-		if (i == p->philos_num)
+		if (++i == p->philos_num)
 			i = 0;
 	}
 	pthread_mutex_unlock(&p->threads->f->bye_l);

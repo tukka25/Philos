@@ -6,7 +6,7 @@
 /*   By: abdamoha <abdamoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 06:29:03 by abdamoha          #+#    #+#             */
-/*   Updated: 2023/05/01 22:15:12 by abdamoha         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:27:59 by abdamoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	pars(t_philo *p, char *argv[])
 			p->eat_t = n;
 		if (p->i == 4 && n)
 			p->sleep_t = n;
-		if (p->i == 5 && n)
+		if ((p->i == 5 && n) || n == 0)
 			p->meals = n;
 		p->i++;
 	}
@@ -64,5 +64,5 @@ void	init(t_philo *p)
 	p->die_t = 0;
 	p->eat_t = 0;
 	p->sleep_t = 0;
-	p->meals = 0;
+	p->meals = 2147483647;
 }
